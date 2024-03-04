@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #58b4b6;
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position: center;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2edoeFddbUBfSeowU9pRVTI_m2V_ovR9YUw&usqp=CAU");
+        }
+
+        #calculator {
+            padding: 30px;
+            padding-bottom: 90px;
+            padding-top: 150px;
+            display: grid;
+            grid-template-columns: repeat(5, 70px);
+            grid-template-rows: repeat(7, 70px);
+            column-gap: 25px;
+            row-gap: 30px;
+            max-width: 600px;
+            max-height: 550px;
+            margin: auto;
+            border: 2px solid #2b3945;
+            border-radius: 30px;
+            overflow: hidden;
+            background-color: #1e2a4a;
+        }
+
+        #display {
+            grid-column: span 5;
+            text-align: right;
+            padding: 60px;
+            font-size: 2.5em;
+            border: 1.5px solid #1e2a4a;
+            border-radius: 15px;
+            position: relative;
+            top: -90px;
+            z-index: 1;
+            background-color: #2a6657;
+            color: #fff;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 1.25em;
+            cursor: pointer;
+            border: 1.5px solid #2b3945;
+            border-radius: 8px;
+            background-color: #4a5568;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #667991;
+        }
+
+        #equals {
+            grid-column: span 2;
+            background-color: #d00000;
+            color: #fff;
+            border: 1px solid #d00000;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <div id="display"></div>
+        <button onclick="appendToDisplay('(')">(</button>
+        <button onclick="appendToDisplay(')')">)</button>
+        <button onclick="calculateResult()">ans</button>
+        <button onclick="clearDisplay()">CE</button>
+        <button onclick="deleteLastChar()">DEL</button>
+
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('%')">%</button>
+        <button onclick="appendToDisplay('Math.sqrt(')">&radic;</button>
+
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('&times;')">&times;</button>
+        <button onclick="appendToDisplay('&divide;')">&divide;</button>
+
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <button onclick="appendToDisplay('-')">-</button>
+
+        <button onclick="appendToDisplay('.')">.</button>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="toggleSign()">±</button>
+        <button id="equals" onclick="calculateResult()">=</button>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+
+        function appendToDisplay(value) {
+            display.innerText += value;
+        }
+
+        function clearDisplay() {
+            display.innerText = '';
+        }
+
+        function deleteLastChar() {
+            display.innerText = display.innerText.slice(0, -1);
+        }
+
+        function calculateResult() {
+        try {
+            let expression = display.innerText.replace(/×/g, '*').replace(/÷/g, '/');
+                display.innerText = eval(expression);
+        } catch (error) {
+                display.innerText = 'Error';
+            }
+        }
+
+        function toggleSign() {
+            let currentValue = display.innerText;
+            if (currentValue.startsWith('-')) {
+                display.innerText = currentValue.slice(1);
+            } else {
+                display.innerText = '-' + currentValue;
+            }
+        }
+    </script>
+</body>
+</html>
