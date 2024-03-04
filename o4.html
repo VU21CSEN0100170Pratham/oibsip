@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;  
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position: center;
+            background-image: url("login.avif");
+        }
+
+        .container {
+            display:flex;
+            text-align: center;
+            background-color:lavender;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+            width: 100%; 
+            max-width: 400px;
+            height: 450px;
+        }
+
+        form {
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width:100%;
+            background-color:lavender;
+            margin-bottom: 70px;
+            
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 30px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            width: 50%;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #secured-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .switch-form {
+            margin-top: 20px;
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .or {
+            margin: 0px 0;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+    </style>
+    <title>Login Authentication System</title>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <form id="loginForm">
+            <h2 id="loginHeader" style="margin-bottom: 40px;">Login</h2>
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" required>
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" required>
+            <button type="button" onclick="loginUser()">Login</button>
+            <p class="or">or</p>
+            <div class="switch-form" onclick="switchToRegister()">Sign up</div>
+        </form>
+
+        <form id="registrationForm" style="display:none;">
+            <h2 id="registerHeader" style="margin-bottom: 40px;"></h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="button" onclick="registerUser()">Register</button>
+            <p class="or">or</p>
+            <div class="switch-form" onclick="switchToLogin()">Login</div>
+        </form>
+    </div>
+
+    <div class="container" id="secured-container" style="display: none;">
+        <div style="margin-top:180px">
+        <h2>Secured Page</h2>
+        <p>Welcome, <span id="loggedInUser"></span>!</p>
+        </div>
+    </div>
+
+    <script>
+        function loginUser() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const userData = JSON.parse(localStorage.getItem(username));
+
+            if (!userData || userData.password !== password) {
+                alert('Invalid credentials');
+                return;
+            }
+
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('secured-container').style.display = 'block';
+            document.getElementById('loggedInUser').innerText = username;
+        }
+
+        function switchToRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerHeader').innerText = 'Register';
+            document.getElementById('registerHeader').style.paddingTop=20+"px";
+            document.getElementById('registerHeader').style.marginTop=0+"px";
+            document.getElementById('registrationForm').style.display = 'block';
+        }
+
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (localStorage.getItem(username)) {
+                alert('Username already exists');
+                return;
+            }
+
+            localStorage.setItem(username, JSON.stringify({ password }));
+
+            alert('User registered successfully');
+
+            switchToLogin();
+        }
+
+        function switchToLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerHeader').innerText = 'Register';
+            document.getElementById('loginHeader').style.paddingTop=20+"px";
+            document.getElementById('loginHeader').style.marginTop=0+"px";
+            document.getElementById('registrationForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
